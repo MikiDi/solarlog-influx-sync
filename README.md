@@ -17,5 +17,5 @@ SOLARLOG_PASSWD='...' \
 INFLUX_MEASUREMENT_NAME='...' \
 INFLUX_HOST='...' \
 INFLUX_DB='...' \
-solarlog_influx_sync
+solarlog_influx_sync.py
 ```
