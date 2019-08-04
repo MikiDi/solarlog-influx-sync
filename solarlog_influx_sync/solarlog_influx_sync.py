@@ -2,12 +2,15 @@
 import datetime
 from ftplib import FTP
 import logging
+import os
 import pytz
 import re
 
 from influxdb import InfluxDBClient
 
 from solarlogcsv.parser import parseline as parse_solarlog_line
+
+from pythonize_isoformat import pythonize_iso_timestamp
 
 def get_last_record_time(influx_client, influx_query):
     result_last_point_query = list(client.query(last_point_query))
