@@ -68,7 +68,7 @@ if __name__ == '__main__':
     INFLUX_HOST = os.environ.get('INFLUX_HOST')
     INFLUX_PORT = int(os.environ.get('INFLUX_PORT')) if  os.environ.get('INFLUX_PORT') else 8086
     INFLUX_DB = os.environ.get('INFLUX_DB')
-    INFLUX_MEASUREMENT_NAME = os.environ.get('INFLUX_MEASUREMENT_NAME', solarlog)
+    INFLUX_MEASUREMENT_NAME = os.environ.get('INFLUX_MEASUREMENT_NAME', 'solarlog')
 
     SOLARLOG_ERA_START = int(os.environ.get('SOLARLOG_ERA_START')) \
                             if os.environ.get('SOLARLOG_ERA_START') \
