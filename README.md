@@ -19,3 +19,24 @@ INFLUX_HOST='...' \
 INFLUX_DB='...' \
 solarlog_influx_sync.py
 ```
+
+### docker-compose
+Docker-compose snippet for configuring the sync to run every 10 minutes:
+
+```
+solarlog-sync:
+  build: https://github.com/MikiDi/solarlog-influx-sync.git
+  restart: always
+  command: >
+    sh -c "echo 'python /app/solarlog_influx_sync/solarlog_influx_sync.py' > /app/cron_entrypoint &&
+           chmod +x /app/cron_entrypoint &&
+           echo '*/10 * * * * /app/cron_entrypoint' > /var/spool/cron/crontabs/root &&
+           crond -l 2 -f"
+  environment:
+    SOLARLOG_HOST: '...'
+    SOLARLOG_USER: '...'
+    SOLARLOG_PASSWD: '...'
+    INFLUX_MEASUREMENT_NAME: '...'
+    INFLUX_HOST: '...'
+    INFLUX_DB: '...'
+```
