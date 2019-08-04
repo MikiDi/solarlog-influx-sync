@@ -50,7 +50,10 @@ def solarlog_line_2_influx_measurements(time, inverters_data):
 
 def callback_constructor(influx_client, ftp_client, last_time):
     def callback(line):
-        time, inverters_data = parse_solarlog_line(line)
+        try:
+            time, inverters_data = parse_solarlog_line(line)
+        except Exception:
+            logging.warning('Something went wrong while parsing line {}, skipping ...'.format(line))
         if time > last_time:
             influx_points = solarlog_line_2_influx_measurements(time, inverters_data)
             influx_client.write_points(influx_points)
