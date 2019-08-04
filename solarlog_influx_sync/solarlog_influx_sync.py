@@ -58,6 +58,7 @@ def callback_constructor(influx_client, ftp_client, last_time):
             influx_points = solarlog_line_2_influx_measurements(time, inverters_data)
             influx_client.write_points(influx_points)
         else:
+            logging.info('Reached end of incremental delta')
             ftp_client.abort()
     return callback
 
@@ -95,7 +96,7 @@ if __name__ == '__main__':
 
     callback = callback_constructor(influx, ftp, last_time)
     if last_time.date() < datetime.datetime.utcnow().date(): # Multiple days to sync
-        logging.info("Looking up all files since {} ...".format(last_time))
+        logging.info("Retrieving up all files since {} ...".format(last_time))
         listing = lst_solarlog_files_since(ftp, last_time)
         logging.info("Found {} files. Processing ...".format(len(listing)))
         for filename in listing:
@@ -103,6 +104,7 @@ if __name__ == '__main__':
             cmd = 'RETR {}'.format(filename)
             ftp.retrlines(cmd, callback=callback)
     else: # Only today to sync
+        logging.info("Syncing today's file")
         cmd = 'RETR {}'.format('min_day.js')
         ftp.retrlines(cmd, callback=callback)
 
